@@ -3,6 +3,7 @@ import java.util.Scanner;
 //defining User class from User object created below. ONLY FOR THE CREATION OF THE USER TYPE.
 class User
 {
+	//need to obtain strings???
 	String username;
 	String password;
 
