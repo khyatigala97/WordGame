@@ -1,14 +1,27 @@
+
 import java.util.Scanner;
 
-//defining User class from User object created below. ONLY FOR THE CREATION OF THE USER TYPE.
+//class User defines the type User.
 class User
 {
-	//need to obtain strings???
+	//get strings
 	String username;
 	String password;
+	
+	//Getter for username
+	public String getusername ()
+	{
+		return this.username;
+	}
+	
+	//Getter for password
+	public String getpassword ()
+	{
+		return this.password;
+	}
 
 	//defining the User class constructor
-	public void User(String username, String password)
+	public User(String username, String password)
 	{
 		this.username = username;
 		this.password = password;
@@ -19,60 +32,77 @@ class User
 public class CourseGame 
 {
 
-	//define the user class attribute (this.) for login method
+	//declare User object user1
 	static User user1;
 
 	//main method:
 	public static void main (String [] args)
 	{
-		//declare User object so that it can be returned
-		// User user1;  // TODO
 
-		//printing the initial menu
-		System.out.println("Welcome to the Word Game");
-		System.out.println("Login (L)");
-		System.out.println("Register (R)");
-		System.out.println("About (A)");
-		System.out.println("Play the Game (P)");
-		System.out.println("Show the Leader Board (B)");
-		System.out.println("Quit (Q)");
+		//Loop main method so that all options are presented after user registers. 
+		//User1 object variables created disappear quitting program.
+
+    boolean in_game = true;
+    
+    //ensures that only logged in players can play game 
+    boolean logged_in = false;
 		
-		//Space
-		System.out.println();
-		System.out.println();
-
-		//Getting and printing user option
-		Scanner scan = new Scanner(System.in);
-		char menu;
-
-		System.out.println("Please choose an option: ");
-		menu = scan.next().charAt(0);
-		menu = Character.toUpperCase(menu);
-
-		//process menu option
-
+		while (in_game)
 		
-
-		switch (menu)
 		{
-			//call new methods for each case
-			case 'A':
-				instructions();
-				break;
+      //printing the initial menu
+			System.out.println("Welcome to the Word Game");
+			System.out.println("Login (L)");
+			System.out.println("Register (R)");
+			System.out.println("About (A)");
+			System.out.println("Play the Game (P)");
+			System.out.println("Show the Leader Board (B)");
+			System.out.println("Quit (Q)");
+		
+			//Space
+			System.out.println();
+			System.out.println();
 
-			case 'L':
-				login();
-				break;
+			//Getting and printing user option
+			Scanner scan = new Scanner(System.in);
+			char menu;
 
-			case 'R':
-				user1 =register();
-				break;
+      System.out.println("Please choose an option: ");
+      menu = scan.next().charAt(0);
+      menu = Character.toUpperCase(menu);
 
-			//quit the program for anything esle selected
-				default: 
-				return;
+      //process menu option
 
-		}
+      switch (menu)
+      {
+        //call new methods for each case
+        case 'A':
+          instructions();
+          break;
+
+        case 'L':
+          login();
+          logged_in = true;
+          break;
+
+        case 'R':
+          //Register method returns User object of type User
+          CourseGame.user1 =register();   
+          break;
+
+        //quit the program for anything else selected
+          default: 
+          in_game = false;
+          
+          //case 'P'
+          //if (logged_in == true)
+          //{
+          //play();
+          //}
+          //break;
+
+      }
+    }
 	}
 
 	//quit main method.
@@ -83,8 +113,8 @@ public class CourseGame
 	{
 		//obtain user input
 		Scanner scan = new Scanner (System.in);
-		String username;
-		String password;
+		String username = null;
+		String password = null;
 
 		boolean invalid_password = true;
 
@@ -115,11 +145,12 @@ public class CourseGame
 
 		//username and password saved as object. 
 
-		User user1 = new User(username, password);
-		return user1; //this returns the user object to the main method.
+		User user = new User(username, password);
+		return user; 
+		//"return user" this returns the user object to the main method saved under user1.
 	}
 
-	//login method
+	//login method (for now doesn't return anything, hence is void)
 	public static void login()
 	{
 
@@ -128,6 +159,7 @@ public class CourseGame
 		String username;
 		String password;
 
+		//set invalid login to true; used for while loop
 		boolean invalid_login = true;
 
 		while (invalid_login)
@@ -139,15 +171,24 @@ public class CourseGame
 			System.out.println("Please enter a password.");
 			password = scan.nextLine();
 
-			if (this.user1.username == username && this.user1.password == password)
+			//loop, compare string objects using .equals 
+			//check to see if login input matches registration data
+			if (CourseGame.user1.getusername().equals(username) && CourseGame.user1.getpassword().equals(password))
 			{
+				//login succesful; breaks out of while loop because bool=false
 				invalid_login = false;
+        System.out.println();
 				System.out.println("LOGGED IN");
+        System.out.println();
 			}
 
 			else 
 			{
+				//login unsuccessful; goes back to while loop because bool=true
 				invalid_login = true;
+        System.out.println();
+				System.out.println("LOGIN FAILED");
+        System.out.println();
 			}
 
 		}
@@ -159,5 +200,4 @@ public class CourseGame
 	}
 
 }
-
 
